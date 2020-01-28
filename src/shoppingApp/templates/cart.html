@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load mathfilters %}
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger" role="alert">
+                <button class="close" data-dismiss="alert">
+                <small><sup>x</sup></small>
+                </button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <br>
+    {% if all_carts %}
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-12 ">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th></th>
+                                <th class="text-right">Price</th>
+                                <th class="text-right">Total</th>
+                                <th> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for things in all_carts %}
+                                <tr>
+                                    <td class="col-sm-6 col-md-6">
+                                        <div class="media">
+                                            <a class="thumbnail pull-left" href="#">  </a>
+                                            <div class="media-body">
+                                                <h5 class="media-heading"><a href="#">
+                                                    {{ things.name }}
+                                                </a></h5>
+                                            </div>
+                                        </div></td>
+                                        <td class="col-sm-1 col-md-1" style="text-align: center">
+                                        </td>
+                                        <td class="col-sm-1 col-md-1 text-right"><strong>
+                                            {{ things.price }}.00
+                                        </strong></td>
+                                        <td class="col-sm-1 col-md-1 text-right"><strong>
+                                            {{ things.price }}.00
+                                        </strong></td>
+                                        <td class="col-sm-1 col-md-1">
+                                            <a href="{% url 'deleteToCart' things.id %}" type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td>   </td>
+                                        <td>   </td>
+                                        <td><h5>Subtotal</h5></td>
+                                        <td class="text-right"><h5><strong>
+                                        {% for key,value in priceTotal.items %}{{ value|floatformat:"0" }}{% endfor %}.00
+                                    </strong></h5></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><p>50% OFF</p></td>
+                                    <td>
+                                        <a class="btn btn-warning" href="{% url 'offerApply' request.user.id %}" role="button">apply</a>
+                                    </td>
+                                    <td class="text-right"><h5><strong>
+                                    -{% for key,value in avrg.items %}{{ value }}{% endfor %}0
+                                </strong></h5></td>
+                                <td class="text-right"><h3><strong>
+                                    
+                                </strong></h3></td>
+                            </tr>
+                            <tr>
+                                <td>   </td>
+                                <td>   </td>
+                                <td><h3>Total</h3></td>
+                                <td class="text-right"><h3><strong>
+                                {% for key,value in fTotal.items %}{{ value|floatformat:"0" }}{% endfor %}.00
+                            </strong></h3></td>
+                        </tr>
+                        <tr>
+                        </table>
+                        <a href="{% url 'home' %}" type="button" class="btn btn-primary"><i class="fa fa-cart-plus" aria-hidden="true"></i> Continue Shopping
+                        </a>
+                        <a href="{% url 'checkout' %}" type="button" class="btn btn-success pull-right">
+                            Checkout <span class="glyphicon glyphicon-play"></span>
+                        </a>
+                    </tr>
+                    <br>
+                    <br>
+                </tbody>
+                
+            </div>
+        </div>
+    </div>
+{% else %}
+    <style type="text/css">
+    body { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAxMC8yOS8xMiKqq3kAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAABHklEQVRIib2Vyw6EIAxFW5idr///Qx9sfG3pLEyJ3tAwi5EmBqRo7vHawiEEERHS6x7MTMxMVv6+z3tPMUYSkfTM/R0fEaG2bbMv+Gc4nZzn+dN4HAcREa3r+hi3bcuu68jLskhVIlW073tWaYlQ9+F9IpqmSfq+fwskhdO/AwmUTJXrOuaRQNeRkOd5lq7rXmS5InmERKoER/QMvUAPlZDHcZRhGN4CSeGY+aHMqgcks5RrHv/eeh455x5KrMq2yHQdibDO6ncG/KZWL7M8xDyS1/MIO0NJqdULLS81X6/X6aR0nqBSJcPeZnlZrzN477NKURn2Nus8sjzmEII0TfMiyxUuxphVWjpJkbx0btUnshRihVv70Bv8ItXq6Asoi/ZiCbU6YgAAAABJRU5ErkJggg==);}
+    .error-template {padding: 40px 15px;text-align: center;}
+    .error-actions {margin-top:15px;margin-bottom:15px;}
+    .error-actions .btn { margin-right:10px; }
+    </style>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="error-template">
+                    <h1>
+                    Oops!</h1>
+                    <h2>
+                    Empty Cart</h2>
+                    <div class="error-details">
+                        Your Shopping Cart is Empty!
+                    </div>
+                    <div class="error-actions">
+                        <a href="{% url 'home' %}" class="btn btn-primary btn-lg"><i class="fa fa-cart-plus" aria-hidden="true"></i>
+                        Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif%}
+{% endblock content %}

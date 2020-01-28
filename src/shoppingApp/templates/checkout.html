@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid py-3">
+	<div class="row">
+		<div class="col-md-6 offset-md-3">
+			<div id="pay-invoice" class="card">
+				<div class="card-body">
+					<div class="card-title">
+						<h5 class="text-center">Delivery Address & Pay Invoice</h5>
+					</div>
+					<hr>
+					<form action="{% url 'payment' request.user.id %}" method="post" enctype="multipart/form-data">
+						   {% csrf_token %}
+						<div class="form-group">
+							<input  name="cc-number" type="tel" class="form-control" required autocomplete="off" disabled="" value="{{ request.user.first_name }} {{ request.user.last_name }}" >
+						</div>
+						<div class="form-group">
+							<input id="cc-number" name="cc-number" type="tel" class="form-control" required autocomplete="off" disabled="" value="{{ request.user.email }}" >
+						</div>
+						<div class="form-group">
+							<label for="cc-number" class="control-label mb-1">Mobile number</label>
+							<input id="cc-number" name="cc-number" type="tel" class="form-control" required autocomplete="off"  >
+						</div>
+						
+						<div class="form-group">
+							<label for="cc-number" class="control-label mb-1">Address</label>
+							<input id="cc-number" name="cc-number" type="tel" class="form-control cc-number identified visa" required autocomplete="off"  >
+						</div>
+						<div class="row">
+							<div class="form-group col-md-4">
+								<label for="inputCity">City</label>
+								<input type="text" class="form-control" id="inputCity" required autocomplete="off">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="inputState">State</label>
+								<select id="inputState" class="form-control">
+									<option selected disabled="">Choose...</option>
+								<!-- 	<option>Andhra Pradesh</option>
+									<option>Karnataka</option>
+									<option>Maharashtra</option> -->
+									<option>West Bengal</option>
+								</select>
+							</div>
+							<div class="form-group col-md-4">
+								<label for="inputPostal">Postal code</label>
+								<input type="text" class="form-control" id="inputPostal">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="x_zip" class="control-label mb-1">Card number</label>
+							<input id="x_zip" name="x_zip" type="text" class="form-control" value="" data-val="true" data-val-required="Please enter the ZIP/Postal code" autocomplete="off">
+						</div>
+						<div class="row">
+							<div class="col-6">
+								<div class="form-group">
+									<label for="cc-exp" class="control-label mb-1">Expiration</label>
+									<input id="cc-exp" name="cc-exp" type="tel" class="form-control cc-exp" required placeholder="MM / YY" autocomplete="cc-exp">
+								</div>
+							</div>
+							<div class="col-6">
+								<label for="x_card_code" class="control-label mb-1">CVV</label>
+								<div class="input-group">
+									<input id="x_card_code" name="x_card_code" type="tel" class="form-control cc-cvc" required autocomplete="off" placeholder="123">
+									<div class="input-group-append">
+										<div class="input-group-text">
+											<span class="fa fa-question-circle fa-lg" data-toggle="popover" data-container="body" data-html="true" data-title="CVV"
+												data-content="<div class='text-center one-card'>The 3 digit code on back of the card..<div class='visa-mc-cvc-preview'></div></div>"
+											data-trigger="hover"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+							<i class="fa fa-lock fa-lg"></i>&nbsp;
+							<span id="payment-button-amount">Pay </span>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
